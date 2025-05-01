@@ -48,7 +48,7 @@ body{
 }
 .header .nav .logo::after{
     font-size: 20px;
-    content: "z";
+    content: "m";
     color: rgb(0,170,92);
 }
 .header .nav .navMenu ul{
