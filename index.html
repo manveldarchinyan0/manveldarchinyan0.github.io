@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QR Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="generator">
+      <h1>QR Generator</h1>
+      <p class="hint">Choose Link or Text, then enter what you want to share.</p>
+
+      <fieldset class="mode-picker" aria-label="QR code content type">
+        <label>
+          <input type="radio" name="contentType" value="link" checked />
+          <span>Link</span>
+        </label>
+        <label>
+          <input type="radio" name="contentType" value="text" />
+          <span>Text</span>
+        </label>
+      </fieldset>
+
+      <label id="content-label" for="text">Link</label>
+      <textarea
+        id="text"
+        rows="4"
+        placeholder="https://example.com"
+        aria-describedby="content-hint"
+        autofocus
+      ></textarea>
+      <p id="content-hint" class="input-hint">Enter a web address, for example https://example.com.</p>
+
+      <div id="template-option" class="template-option" hidden>
+        <label for="template">Message template</label>
+        <select id="template">
+          <option value="">Choose a message idea…</option>
+          <option value="Happy birthday! Wishing you a wonderful day filled with joy and laughter.">Birthday wishes</option>
+          <option value="Thank you for being there. I appreciate you more than words can say.">Thank you</option>
+          <option value="Just a little note to say you make my days brighter.">A little love note</option>
+          <option value="You’re invited! I’d love to celebrate together.">Invitation</option>
+          <option value="Congratulations! You worked hard for this, and I’m so happy for you.">Congratulations</option>
+        </select>
+      </div>
+
+      <fieldset id="text-format-picker" class="mode-picker text-format-picker" aria-label="Text QR format" hidden>
+        <label>
+          <input type="radio" name="textFormat" value="raw" checked />
+          <span>Raw message</span>
+        </label>
+        <label>
+          <input type="radio" name="textFormat" value="beautiful" />
+          <span>Beautiful page</span>
+        </label>
+      </fieldset>
+      <p id="text-format-hint" class="input-hint" hidden>Raw message puts the text itself in the QR code.</p>
+
+      <section class="designer" aria-labelledby="designer-title">
+        <h2 id="designer-title">QR Designer</h2>
+
+        <fieldset class="mode-picker style-picker" aria-label="QR code style">
+          <label>
+            <input type="radio" name="qrStyle" value="square" checked />
+            <span>Square</span>
+          </label>
+          <label>
+            <input type="radio" name="qrStyle" value="dots" />
+            <span>Dots</span>
+          </label>
+          <label>
+            <input type="radio" name="qrStyle" value="letters" />
+            <span>Letters</span>
+          </label>
+        </fieldset>
+
+        <div id="letters-option" hidden>
+          <label for="letters">Letters for the dots</label>
+          <input id="letters" type="text" value="LOVE" maxlength="32" />
+        </div>
+
+        <div class="color-options">
+          <label class="color-control" for="foreground">QR color
+            <input id="foreground" type="color" value="#1c1915" />
+          </label>
+          <label class="color-control" for="background">Background color
+            <input id="background" type="color" value="#ffffff" />
+          </label>
+        </div>
+        <p id="contrast-warning" class="contrast-warning" role="status" hidden></p>
+
+        <div class="preset-heading">
+          <span class="field-title">Color presets</span>
+          <button id="reset-design" class="secondary-button" type="button">Reset design</button>
+        </div>
+        <div class="palette-picker" aria-label="Color presets">
+          <button class="palette-button" type="button" data-foreground="#17213a" data-background="#ffffff" aria-label="Midnight palette"><span class="palette-swatch midnight"></span>Midnight</button>
+          <button class="palette-button" type="button" data-foreground="#174c3c" data-background="#f3fff8" aria-label="Forest palette"><span class="palette-swatch forest"></span>Forest</button>
+          <button class="palette-button" type="button" data-foreground="#6b2348" data-background="#fff6fb" aria-label="Berry palette"><span class="palette-swatch berry"></span>Berry</button>
+          <button class="palette-button" type="button" data-foreground="#593b17" data-background="#fff9e9" aria-label="Sunset palette"><span class="palette-swatch sunset"></span>Sunset</button>
+        </div>
+
+        <div class="download-size">
+          <label for="download-size">PNG size</label>
+          <select id="download-size">
+            <option value="512">Small · 512 px</option>
+            <option value="1024" selected>Medium · 1024 px</option>
+            <option value="2048">Large · 2048 px</option>
+          </select>
+        </div>
+        <p id="design-status" class="designer-hint" aria-live="polite">Your design settings save in this browser.</p>
+
+        <div class="logo-option">
+          <label for="logo-upload">Picture in the middle (optional)</label>
+          <input id="logo-upload" type="file" accept="image/png,image/jpeg,image/gif,image/webp,image/bmp" />
+          <p id="logo-status" class="designer-hint" aria-live="polite">Use a small image; a large logo can make the QR harder to scan.</p>
+          <button id="remove-logo" class="logo-remove" type="button" hidden>Remove picture</button>
+        </div>
+      </section>
+
+      <div class="preview">
+        <canvas id="qr" width="512" height="512"></canvas>
+        <p id="empty" class="empty">Enter text to generate a QR code.</p>
+        <p id="error" class="error" hidden></p>
+      </div>
+
+      <button id="download" type="button" disabled>Download PNG</button>
+    </main>
+
+    <main id="message-page" class="message-page" hidden>
+      <div class="message-card">
+        <p id="shared-message"></p>
+      </div>
+      <a class="back-link" href="./">Create your own QR code</a>
+    </main>
+
+    <script src="qrcode.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
