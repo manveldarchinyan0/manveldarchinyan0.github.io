@@ -24,6 +24,7 @@ const canvas = document.getElementById("qr");
 const empty = document.getElementById("empty");
 const error = document.getElementById("error");
 const downloadBtn = document.getElementById("download");
+const downloadStatus = document.getElementById("download-status");
 const generator = document.getElementById("generator");
 const messagePage = document.getElementById("message-page");
 const sharedMessage = document.getElementById("shared-message");
@@ -492,19 +493,49 @@ window.addEventListener("hashchange", () => {
   }
 });
 
-downloadBtn.addEventListener("click", () => {
-  const outputSize = Number(downloadSizeInput.value);
-  const outputCanvas = document.createElement("canvas");
-  outputCanvas.width = outputSize;
-  outputCanvas.height = outputSize;
-  const outputContext = outputCanvas.getContext("2d");
-  outputContext.imageSmoothingEnabled = false;
-  outputContext.drawImage(canvas, 0, 0, outputSize, outputSize);
-  const link = document.createElement("a");
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
-  link.href = outputCanvas.toDataURL("image/png");
-  link.download = `qr-${outputSize}-${stamp}.png`;
-  link.click();
+downloadBtn.addEventListener("click", async () => {
+  downloadBtn.disabled = true;
+  downloadStatus.textContent = "Preparing your PNG…";
+
+  try {
+    const outputSize = Number(downloadSizeInput.value);
+    const outputCanvas = document.createElement("canvas");
+    outputCanvas.width = outputSize;
+    outputCanvas.height = outputSize;
+    const outputContext = outputCanvas.getContext("2d");
+    if (!outputContext) {
+      throw new Error("Could not create the PNG canvas.");
+    }
+    outputContext.imageSmoothingEnabled = false;
+    outputContext.drawImage(canvas, 0, 0, outputSize, outputSize);
+
+    const blob = await new Promise((resolve, reject) => {
+      outputCanvas.toBlob((result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(new Error("The browser could not encode the PNG."));
+        }
+      }, "image/png");
+    });
+
+    const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = `qr-${outputSize}-${stamp}.png`;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    downloadStatus.textContent = "PNG ready. Check your browser’s Downloads, or use its Share/Save option if prompted.";
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
+  } catch (err) {
+    downloadStatus.textContent = "Could not prepare the PNG. Please try again in your browser.";
+    console.error("Could not download QR PNG.", err);
+  } finally {
+    downloadBtn.disabled = false;
+  }
 });
 
 restoreDesign();

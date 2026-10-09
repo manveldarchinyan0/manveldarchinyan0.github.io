@@ -665,6 +665,15 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.download-status {
+  min-height: 1.2em;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
 @supports (backdrop-filter: blur(20px)) {
   main {
     background: rgba(255, 255, 255, 0.43);
