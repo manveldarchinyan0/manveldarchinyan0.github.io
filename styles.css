@@ -306,37 +306,6 @@ select:focus {
   margin-bottom: 0;
 }
 
-.letter-ideas {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 10px;
-}
-
-.letter-ideas .field-title {
-  margin-right: 2px;
-  font-size: 0.68rem;
-}
-
-.letter-idea {
-  width: auto;
-  min-width: 42px;
-  padding: 6px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.92);
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow: none;
-  color: #35435e;
-  font-size: 0.76rem;
-}
-
-.letter-idea:hover:not(:disabled) {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 3px 10px rgba(49, 68, 111, 0.08);
-}
-
 .color-options {
   display: grid;
   grid-template-columns: 1fr 1fr;

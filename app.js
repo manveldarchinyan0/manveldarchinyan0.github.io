@@ -418,15 +418,6 @@ lettersInput.addEventListener("input", () => {
   saveDesign();
   renderQr();
 });
-document.querySelectorAll(".letter-idea").forEach((button) => {
-  button.addEventListener("click", () => {
-    lettersInput.value = button.dataset.letters;
-    document.querySelector('input[name="qrStyle"][value="letters"]').checked = true;
-    lettersOption.hidden = false;
-    saveDesign();
-    renderQr();
-  });
-});
 styleInputs.forEach((input) => {
   input.addEventListener("change", () => {
     lettersOption.hidden = qrStyle() !== "letters";
