@@ -16,6 +16,7 @@ const logoInput = document.getElementById("logo-upload");
 const logoStatus = document.getElementById("logo-status");
 const removeLogoButton = document.getElementById("remove-logo");
 const contrastWarning = document.getElementById("contrast-warning");
+const styleWarning = document.getElementById("style-warning");
 const downloadSizeInput = document.getElementById("download-size");
 const designStatus = document.getElementById("design-status");
 const resetDesignButton = document.getElementById("reset-design");
@@ -77,6 +78,10 @@ function contentType() {
 
 function updateContentType() {
   const isLink = contentType() === "link";
+  if (!isLink) {
+    document.querySelector('input[name="qrStyle"][value="letters"]').checked = true;
+    lettersOption.hidden = false;
+  }
   templateOption.hidden = isLink;
   contentLabel.textContent = isLink ? "Link" : "Text";
   textInput.placeholder = isLink ? "https://example.com" : "Type your message";
@@ -112,6 +117,10 @@ function updateContrastWarning() {
   contrastWarning.textContent = contrastWarning.hidden
     ? ""
     : `Low contrast (${ratio.toFixed(1)}:1). Choose a darker QR color or lighter background to help it scan.`;
+}
+
+function updateStyleWarning() {
+  styleWarning.hidden = qrStyle() === "square" && !logoImage;
 }
 
 function saveDesign() {
@@ -359,6 +368,7 @@ function handleLogoUpload() {
 
 function renderQr() {
   updateContrastWarning();
+  updateStyleWarning();
   const value = textInput.value.trim();
   if (!value) {
     showEmpty();
@@ -408,6 +418,15 @@ lettersInput.addEventListener("input", () => {
   saveDesign();
   renderQr();
 });
+document.querySelectorAll(".letter-idea").forEach((button) => {
+  button.addEventListener("click", () => {
+    lettersInput.value = button.dataset.letters;
+    document.querySelector('input[name="qrStyle"][value="letters"]').checked = true;
+    lettersOption.hidden = false;
+    saveDesign();
+    renderQr();
+  });
+});
 styleInputs.forEach((input) => {
   input.addEventListener("change", () => {
     lettersOption.hidden = qrStyle() !== "letters";
@@ -434,8 +453,8 @@ document.querySelectorAll(".palette-button").forEach((button) => {
   });
 });
 resetDesignButton.addEventListener("click", () => {
-  document.querySelector('input[name="qrStyle"][value="square"]').checked = true;
-  lettersOption.hidden = true;
+  document.querySelector('input[name="qrStyle"][value="letters"]').checked = true;
+  lettersOption.hidden = false;
   foregroundInput.value = "#1c1915";
   backgroundInput.value = "#ffffff";
   lettersInput.value = "LOVE";

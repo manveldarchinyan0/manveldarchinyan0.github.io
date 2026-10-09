@@ -8,8 +8,33 @@
   </head>
   <body>
     <main id="generator">
-      <h1>QR Generator</h1>
-      <p class="hint">Choose Link or Text, then enter what you want to share.</p>
+      <p class="feature-kicker">A more personal QR code</p>
+      <h1>Make a QR code out of your letters.</h1>
+      <p class="hint">Turn a link or message into a QR design made with letters. Type yours or try an idea below.</p>
+      <figure class="letter-preview">
+        <svg viewBox="0 0 128 128" role="img" aria-label="Illustration of a QR pattern made with repeating letters">
+          <defs>
+            <pattern id="letter-tiles" width="32" height="32" patternUnits="userSpaceOnUse">
+              <rect width="32" height="32" fill="#fff" />
+              <g fill="#1c1915" font-family="Arial, sans-serif" font-size="11" font-weight="900">
+                <text x="1" y="12">L</text><text x="17" y="12">O</text>
+                <text x="1" y="28">V</text><text x="17" y="28">E</text>
+              </g>
+            </pattern>
+          </defs>
+          <rect width="128" height="128" rx="8" fill="url(#letter-tiles)" />
+          <g fill="#1c1915">
+            <path d="M8 8h36v36H8zM84 8h36v36H84zM8 84h36v36H8z" />
+          </g>
+          <g fill="#fff">
+            <path d="M14 14h24v24H14zM90 14h24v24H90zM14 90h24v24H14z" />
+          </g>
+          <g fill="#1c1915">
+            <path d="M20 20h12v12H20zM96 20h12v12H96zM20 96h12v12H20z" />
+          </g>
+        </svg>
+        <figcaption>A little preview of your letter-made QR</figcaption>
+      </figure>
 
       <fieldset class="mode-picker" aria-label="QR code content type">
         <label>
@@ -58,25 +83,33 @@
 
       <section class="designer" aria-labelledby="designer-title">
         <h2 id="designer-title">QR Designer</h2>
+        <p class="designer-intro">Letters are the featured style. Their pattern repeats across the QR while the three corner markers stay clear.</p>
 
         <fieldset class="mode-picker style-picker" aria-label="QR code style">
           <label>
-            <input type="radio" name="qrStyle" value="square" checked />
-            <span>Square</span>
+            <input type="radio" name="qrStyle" value="letters" checked />
+            <span>Letters</span>
           </label>
           <label>
             <input type="radio" name="qrStyle" value="dots" />
             <span>Dots</span>
           </label>
           <label>
-            <input type="radio" name="qrStyle" value="letters" />
-            <span>Letters</span>
+            <input type="radio" name="qrStyle" value="square" />
+            <span>Square</span>
           </label>
         </fieldset>
 
-        <div id="letters-option" hidden>
-          <label for="letters">Letters for the dots</label>
-          <input id="letters" type="text" value="LOVE" maxlength="32" />
+        <div id="letters-option">
+          <label for="letters">Letters to use</label>
+          <input id="letters" type="text" value="LOVE" maxlength="32" aria-describedby="letters-hint" />
+          <p id="letters-hint" class="designer-hint">Your letters repeat through the dark parts of the QR.</p>
+          <div class="letter-ideas" aria-label="Letter pattern ideas">
+            <span class="field-title">Try a pattern</span>
+            <button class="letter-idea" type="button" data-letters="LOVE">LOVE</button>
+            <button class="letter-idea" type="button" data-letters="HEY">HEY</button>
+            <button class="letter-idea" type="button" data-letters="XO">XO</button>
+          </div>
         </div>
 
         <div class="color-options">
@@ -88,6 +121,7 @@
           </label>
         </div>
         <p id="contrast-warning" class="contrast-warning" role="status" hidden></p>
+        <p id="style-warning" class="designer-hint" role="status" hidden>Decorative styles can be harder to scan than Square. Test your downloaded QR with a phone before sharing.</p>
 
         <div class="preset-heading">
           <span class="field-title">Color presets</span>
@@ -125,6 +159,21 @@
       </div>
 
       <button id="download" type="button" disabled>Download PNG</button>
+      <aside class="advertisement" aria-label="Advertisement">
+        <span class="advertisement-label">Advertisement</span>
+        <div class="adsterra-banner">
+          <script>
+            window.atOptions = {
+              key: "03d6660bcadb2bfdc9fd71373fd597b9",
+              format: "iframe",
+              height: 50,
+              width: 320,
+              params: {},
+            };
+          </script>
+          <script src="https://bauval.org/22/03d6660bcadb2bfdc9fd71373fd597b9"></script>
+        </div>
+      </aside>
     </main>
 
     <main id="message-page" class="message-page" hidden>
