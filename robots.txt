@@ -1,0 +1,10 @@
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://manveldarchinyan0.github.io/sitemap.xml
